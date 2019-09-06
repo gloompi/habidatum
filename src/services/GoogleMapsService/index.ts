@@ -4,7 +4,7 @@ interface IMapOptins {
 }
 
 interface IMapConstruct {
-  new (elem: HTMLElement | null, options: IMapOptins): HTMLElement;
+  new (elem: HTMLElement, options: IMapOptins): HTMLElement;
 }
 
 interface IGoogleAPI {

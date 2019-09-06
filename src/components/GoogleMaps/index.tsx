@@ -18,7 +18,7 @@ const GoogleMaps: FC = () => {
   useEffect(() => {
     const lat = parseInt(tripStore.data[0]["start station latitude"], 10);
     const lng = parseInt(tripStore.data[0]["start station longitude"], 10);
-    const map = new googleSession.Map(document.getElementById('map'), {
+    const map = new googleSession.Map((document.getElementById('map') as HTMLElement), {
       center: { lat, lng },
       zoom: 12
     });
