@@ -1,0 +1,8 @@
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: url('/loader.gif') center no-repeat;
+  background-size: contain;
+  transform: translate(-50%, -50%);
+}
