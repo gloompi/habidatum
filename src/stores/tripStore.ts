@@ -9,7 +9,7 @@ export interface ITrip {
   stoptime:	string;
   usertype:	string;
   gender:	string;
-  "bikeid":	string;
+  bikeid:	string;
   "birth year": string;
   "start station id":	string;
   "start station name":	string;
@@ -33,7 +33,7 @@ export class TripStore {
   private _startPoint: number = 500;
   private _limit: number = 50;
 
-  @computed private get _endPoint(): number {
+  private get _endPoint(): number {
     return this._startPoint + this._limit;
   }
 
@@ -46,7 +46,7 @@ export class TripStore {
   }
 
   @computed public get paginationItems(): number[] {
-    const pagesNumber = this.totalItems / this._limit;
+    const pagesNumber = Math.ceil(this.totalItems / this._limit);
     const result = [];
 
     for (let i = 0; i < pagesNumber; i++) {
@@ -64,7 +64,7 @@ export class TripStore {
     this._startPoint -= this._limit;
   }
 
-  @action public fetchData = async (): Promise<void> => {
+  @action public fetchData = async (): Promise<ITrip[]> => {
     this.setLoaded(false);
 
     const url = `${config.apiUrl}/${this._startPoint}-${this._endPoint}`;
@@ -73,8 +73,9 @@ export class TripStore {
 
     this.data = data;
     this.totalItems = length;
-
     this.setLoaded(true);
+
+    return this.data;
   }
 
   @action public setLoaded = (value: boolean): void => {

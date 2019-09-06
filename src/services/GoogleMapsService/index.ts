@@ -110,14 +110,9 @@ const getMarkerCluster = (): Promise<IMarkerCluster> => (
 )
 
 export class GoogleMapsSession {
+  public map: HTMLElement | null = null;
   private _google: IGoogleAPI;
   private _placesService: IPlacesService | null = null;
-  private _map: HTMLElement | null;
-  private _markerCluster: IMarkerCluster;
-
-  get map(): HTMLElement | null {
-    return this._map;
-  }
 
   get Map(): IMapConstruct {
     return this._google.maps.Map;
@@ -126,19 +121,13 @@ export class GoogleMapsSession {
   get places(): IPlacesService | null {
     return this._placesService;
   }
-  
-  get markerCluster(): IMarkerCluster {
-    return this._markerCluster;
-  }
 
   get Marker(): IMarker {
     return this._google.maps.Marker;
   }
 
-  constructor(google: IGoogleAPI, cluster: any) {
+  constructor(google: IGoogleAPI) {
     this._google = google;
-    this._map = null;
-    this._markerCluster = cluster;
   }
 
   setPlacesService = (map: HTMLElement): Promise<void> => (
@@ -149,7 +138,7 @@ export class GoogleMapsSession {
   )
 
   setMapElement = async (map: HTMLElement): Promise<void> => {
-    this._map = map;
+    this.map = map;
 
     await this.setPlacesService(map);
   }
@@ -185,8 +174,7 @@ export default class GoogleMapsService {
 
   async startSession() {
     const google = await getApi(this.apiKey);
-    const cluster = await getMarkerCluster();
-    const session = new GoogleMapsSession(google, cluster);
+    const session = new GoogleMapsSession(google);
 
     return session;
   }
